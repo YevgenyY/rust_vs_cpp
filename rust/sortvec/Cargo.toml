@@ -1,0 +1,9 @@
+[package]
+name = "sortvec"
+version = "0.1.0"
+authors = ["Yevgeny Y. <yy@ixi.ru>"]
+edition = "2018"
+
+[dependencies]
+rust-crypto = "^0.2"
+rand = "0.7.0"

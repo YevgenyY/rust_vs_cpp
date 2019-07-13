@@ -1,0 +1,7 @@
+[package]
+name = "hello"
+version = "0.1.0"
+authors = ["Yevgeny Y. <yy@ixi.ru>"]
+edition = "2018"
+
+[dependencies]
