@@ -11,7 +11,6 @@
 
 using namespace std;
 
-//vector<pair<uint32_t, vector<uint32_t>>> vec(NTHREADS);
 vector<uint32_t> g_vec;
 mutex g_mutex_vec;
 

@@ -143,6 +143,82 @@ The dynamic allocation time is 6 seconds.
 
 Sorting time of 100M vector of random uint32\_t integers is 74 sec. 
 
+### RUST channels: Receiver, Senders
+
+Let's take the example of channel demonstration from the RUST book.
+To make it more complicated we will create 254 threads. Each thread 
+generates 1M vector of integers and sends it to receiver. Receiver 
+collects all the vectors/messages from threads.
+
+```rust
+use std::time::SystemTime;
+use std::sync::mpsc::{Sender, Receiver};
+use std::sync::mpsc;
+use std::thread;
+
+static NTHREADS: i32 = 256;
+static NMAXMSG: i32 = 1000000;
+static NELEM: i32 = NTHREADS * NMAXMSG;
+
+fn main() {
+    // Channels have two endpoints: the `Sender<T>` and the `Receiver<T>`,
+    // where `T` is the type of the message to be transferred
+    // (type annotation is superfluous)
+    //let (tx, rx): (Sender<i32>, Receiver<i32>) = mpsc::channel();
+    let (tx, rx) = mpsc::channel();
+
+    let mut children = Vec::new();
+
+    let now = SystemTime::now();
+    for id in 0..NTHREADS {
+        // The sender endpoint can be copied
+        let thread_tx = tx.clone();
+
+        // Each thread will send its id via the channel
+        let child = thread::spawn(move || {
+            // The thread takes ownership over `thread_tx`
+            // Each thread queues a message in the channel
+            let mut tmp_vec = Vec::with_capacity(NMAXMSG as usize);
+            for j in 0..NMAXMSG {
+                tmp_vec.push(id +j);
+            }
+            thread_tx.send(tmp_vec).unwrap();
+
+            // Sending is a non-blocking operation, the thread will continue
+            // immediately after sending its message
+            // println!("thread {} finished", id);
+        });
+
+        children.push(child);
+    }
+
+    // Here, all the messages are collected
+    let mut rvec = Vec::with_capacity(NMAXMSG as usize);
+    let mut result = Vec::with_capacity(NELEM as usize);
+    for _ in 0..NTHREADS {
+        // The `recv` method picks a message from the channel
+        // recv` will block the current thread if there are no messages available
+        rvec = rx.recv().unwrap();
+        for elem in rvec {
+            //println!("received: {}", elem);
+            result.push(elem);
+        }
+    }
+    
+    // Wait for the threads to complete any remaining work
+    for child in children {
+        child.join().expect("oops! the child thread panicked");
+    }
+
+    println!("{:?}", now.elapsed());
+    println!("Vector size: {}", result.len());
+
+}
+```
+
+The time of sending / receiving and collecting all the messages by rust generated 
+executable is 14 seconds.
+
 ## C++
 
 ### Hello world
@@ -256,3 +332,65 @@ int main(int argc, char **argv)
 The dynamic allocation time is 1 second.
 
 Sorting time of 100M random vector of uint32\_t integers is 35 sec. 
+
+### C++ channel emulation using std::thread: Receiver, Senders
+
+Let's do the same task using C++ std::thread. We will create 256 threads
+each of them generates 1M vector of uint32\_t integers and sends it to the
+receiver. Receiver collects all the messages in a vector.
+
+In this task we are using a mutex approach to locking threads. Of course 
+there are some more interesting non-locking ones.
+
+```c++
+#include <iostream>
+#include <vector>
+#include <stdint.h>
+#include <random>
+#include <algorithm>
+#include <thread>
+#include <mutex>
+
+#define NTHREADS 256
+#define NMAXMSG 1000000
+
+using namespace std;
+
+vector<uint32_t> g_vec;
+mutex g_mutex_vec;
+
+void threadFunc(int tid)
+{
+        lock_guard<mutex> guard(g_mutex_vec);
+        for (int i=0; i < NMAXMSG; ++i)
+        {
+                g_vec.push_back(tid + i);
+        }
+}
+
+int main(int argc, char **argv) 
+{
+        thread tarr[ NTHREADS ];
+
+        int startTime, endTime, totalTime;
+
+        startTime = time(NULL);
+
+        for (int i=0; i < NTHREADS; ++i) 
+        {
+                tarr[ i ] = thread( threadFunc, i );
+        }
+
+        for (int i=0; i < NTHREADS; ++i)
+                tarr[i].join();
+
+        endTime = time(NULL);
+        totalTime = endTime - startTime;
+
+        std::cout << "Runtime: " << totalTime << " seconds. vector size: "  << g_vec.size() << endl;
+}
+
+```
+
+The time of sending / receiving and collecting all the messages by g++ generated 
+executable is 4 seconds.
