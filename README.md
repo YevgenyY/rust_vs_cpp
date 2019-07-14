@@ -59,7 +59,8 @@ Dynamic section at offset 0x2e880 contains 29 entries:
 ```
 As we can see there are *librt, libdl, libpthread, libc, libgcc* libraries.
 
-*librt POSIX.1b Realtime Extensions library*
+*librt - POSIX.1b Realtime Extensions library*
+
      Functions in this library provide  most  of  the  interfaces
      specified  by  the  POSIX.1b  Realtime Extension.  See stan-
      dards(5). Specifically, this includes the interfaces defined
@@ -69,6 +70,31 @@ As we can see there are *librt, libdl, libpthread, libc, libgcc* libraries.
      interfaces defined under the Memory  Mapped  Files,  Process
      Memory  Locking,  and  Range Memory Locking options are pro-
      vided in libc(3LIB)
+
+*libdl - dynamic linking library*
+
+     Historically, functions in libdl provided for dynamic linking support.
+     This functionality now resides in libc(3LIB).
+
+     This library is maintained to provide backward compatibility for both
+     runtime and compilation environments. The shared object is implemented as
+     a filter on the runtime linker. See ld.so.1(1). New application
+     development need not specify -ldl.
+
+*libpthread - POSIX threads library*
+
+     Historically, functions in this library provided POSIX threading support.
+     See standards(5). This functionality now resides in libc(3LIB).
+
+     This library is maintained to provide backward compatibility for both
+     runtime and compilation environments. The shared object is implemented as
+     a filter on libc.so.1. New application development need not specify
+     -lpthread although doing so has no effect.
+
+*libc - overview of standard C libraries on Linux*
+
+     The  term  "libc"  is  commonly used as a shorthand for the "standard C library", a library of standard functions that can be used by all C programs (and sometimes by
+     programs in other languages).  Because of some history (see below), use of the term "libc" to refer to the standard C library is somewhat ambiguous on Linux.
 
 
 Let's have a look at disassembled listing of hello\_world.rs executable.
