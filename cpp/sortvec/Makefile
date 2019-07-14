@@ -1,2 +1,2 @@
-hello: hello.cpp
-	g++ -std=c++11 -o hello hello.cpp
+sortvec: sortvec.cpp
+	g++ -std=c++11 -o sortvec sortvec.cpp

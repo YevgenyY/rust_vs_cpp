@@ -70,3 +70,56 @@ objdump -d main | wc -l
 ## C++
 
 ### Hello world
+```c++
+#include <iostream>
+
+using namespace std;
+
+int main(int argc, char **argv)  {
+        cout << "Hello world" << endl;
+}
+```
+
+What differences there are in the dynamic section of the executable?
+
+```
+Dynamic section at offset 0xe18 contains 25 entries:
+  Tag        Type                         Name/Value
+ 0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+ 0x000000000000000c (INIT)               0x4006a0
+ 0x000000000000000d (FINI)               0x400944
+ 0x0000000000000019 (INIT_ARRAY)         0x600df8
+ 0x000000000000001b (INIT_ARRAYSZ)       16 (bytes)
+ 0x000000000000001a (FINI_ARRAY)         0x600e08
+ 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)
+ 0x000000006ffffef5 (GNU_HASH)           0x400298
+ 0x0000000000000005 (STRTAB)             0x400400
+ 0x0000000000000006 (SYMTAB)             0x4002c8
+ 0x000000000000000a (STRSZ)              360 (bytes)
+ 0x000000000000000b (SYMENT)             24 (bytes)
+ 0x0000000000000015 (DEBUG)              0x0
+ 0x0000000000000003 (PLTGOT)             0x601000
+ 0x0000000000000002 (PLTRELSZ)           168 (bytes)
+ 0x0000000000000014 (PLTREL)             RELA
+ 0x0000000000000017 (JMPREL)             0x4005f8
+ 0x0000000000000007 (RELA)               0x4005c8
+ 0x0000000000000008 (RELASZ)             48 (bytes)
+ 0x0000000000000009 (RELAENT)            24 (bytes)
+ 0x000000006ffffffe (VERNEED)            0x400588
+ 0x000000006fffffff (VERNEEDNUM)         2
+ 0x000000006ffffff0 (VERSYM)             0x400568
+ 0x0000000000000000 (NULL)               0x0
+```
+
+There are only two shared libraries: *libstdc++ and libc*.
+
+What size is disassembled listing of hello.cpp?
+
+```
+objdump -d hello | wc -l
+244
+```
+
+
+
