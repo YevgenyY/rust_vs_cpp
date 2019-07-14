@@ -1,4 +1,4 @@
-# RUST vs C++: a subjective comparision based on differnet tests
+# RUST vs C++: a subjective comparision based on different tests
 
 ## HARDARE / OS / compilers
 
@@ -49,15 +49,27 @@ Dynamic section at offset 0x2e880 contains 29 entries:
  0x0000000000000007 (RELA)               0x3390
  0x0000000000000008 (RELASZ)             11448 (bytes)
  0x0000000000000009 (RELAENT)            24 (bytes)
- 0x0000000000000018 (BIND_NOW)           
- 0x000000006ffffffb (FLAGS_1)            Flags: NOW PIE
+ 0x0000000000000018 (BIND\_NOW)           
+ 0x000000006ffffffb (FLAGS\_1)            Flags: NOW PIE
  0x000000006ffffffe (VERNEED)            0x3270
  0x000000006fffffff (VERNEEDNUM)         5
  0x000000006ffffff0 (VERSYM)             0x3118
  0x000000006ffffff9 (RELACOUNT)          397
  0x0000000000000000 (NULL)               0x0
 ```
-As we can see there are *libpthread, libc, libgcc* libraries.
+As we can see there are *librt, libdl, libpthread, libc, libgcc* libraries.
+
+*librt POSIX.1b Realtime Extensions library*
+     Functions in this library provide  most  of  the  interfaces
+     specified  by  the  POSIX.1b  Realtime Extension.  See stan-
+     dards(5). Specifically, this includes the interfaces defined
+     under   the   Asynchronous  I/O,  Message  Passing,  Process
+     Scheduling, Realtime Signals Extension,  Semaphores,  Shared
+     Memory  Objects,  Synchronized  I/O, and Timers options. The
+     interfaces defined under the Memory  Mapped  Files,  Process
+     Memory  Locking,  and  Range Memory Locking options are pro-
+     vided in libc(3LIB)
+
 
 Let's have a look at disassembled listing of hello\_world.rs executable.
 ```
@@ -80,7 +92,7 @@ int main(int argc, char **argv)  {
 }
 ```
 
-What differences there are in the dynamic section of the executable?
+What differences are there in the dynamic section of the executable?
 
 ```
 Dynamic section at offset 0xe18 contains 25 entries:
