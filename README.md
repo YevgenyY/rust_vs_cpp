@@ -339,7 +339,7 @@ Let's do the same task using C++ std::thread. We will create 256 threads
 each of them generates 1M vector of uint32\_t integers and sends it to the
 receiver. Receiver collects all the messages in a vector.
 
-In this task we are using a mutex approach to locking threads. Of course 
+In this task we are using a mutex approach for locking threads. Of course 
 there are some more interesting non-locking ones.
 
 ```c++
