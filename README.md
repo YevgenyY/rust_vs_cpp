@@ -111,7 +111,37 @@ objdump -d main | wc -l
 31008
 ```
 
+### RUST 100M integers vector sorting 
 
+Sorting algorithm has a computational complexity estimation of O(n log n).
+
+```rust
+extern crate rand;
+
+use std::time::SystemTime;
+use rand::Rng;
+
+fn main() {
+        let mut num: i32 = 0;
+        let mut vec = vec![0, num];
+
+        let now_alloc = SystemTime::now();
+        for x in 0..100000000 {
+                num = x; // only dynamic allocation testing
+                num = rand::thread_rng().gen();
+                vec.push( num );
+        }
+        println!("Allocation time {:?}", now_alloc.elapsed());
+
+        let now_sort = SystemTime::now();
+        vec.sort();
+        println!("Sorting time {:?}", now_sort.elapsed());
+}
+```
+
+The dynamic allocation time is 6 second.
+
+Sorting time of 100M random array of uint32\_t integers is 75 sec. 
 
 ## C++
 
@@ -185,5 +215,7 @@ objdump -d hello | wc -l
 244
 ```
 
+### C++ 100M integers vector sorting
 
+Sorting algorithm has a computational complexity estimation of O(n log n).
 
