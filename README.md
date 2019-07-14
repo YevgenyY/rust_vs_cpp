@@ -35,11 +35,11 @@ Dynamic section at offset 0x2e880 contains 29 entries:
  0x0000000000000001 (NEEDED)             Shared library: [ld-linux-x86-64.so.2]
  0x000000000000000c (INIT)               0x6048
  0x000000000000000d (FINI)               0x226a4
- 0x0000000000000019 (INIT_ARRAY)         0x22cf08
- 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)
- 0x000000000000001a (FINI_ARRAY)         0x22cf10
- 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)
- 0x000000006ffffef5 (GNU_HASH)           0x2d0
+ 0x0000000000000019 (INIT\_ARRAY)         0x22cf08
+ 0x000000000000001b (INIT\_ARRAYSZ)       8 (bytes)
+ 0x000000000000001a (FINI\_ARRAY)         0x22cf10
+ 0x000000000000001c (FINI\_ARRAYSZ)       8 (bytes)
+ 0x000000006ffffef5 (GNU\_HASH)           0x2d0
  0x0000000000000005 (STRTAB)             0x1578
  0x0000000000000006 (SYMTAB)             0x588
  0x000000000000000a (STRSZ)              7071 (bytes)
@@ -93,8 +93,16 @@ As we can see there are *librt, libdl, libpthread, libc, libgcc* libraries.
 
 *libc - overview of standard C libraries on Linux*
 
-     The  term  "libc"  is  commonly used as a shorthand for the "standard C library", a library of standard functions that can be used by all C programs (and sometimes by
-     programs in other languages).  Because of some history (see below), use of the term "libc" to refer to the standard C library is somewhat ambiguous on Linux.
+     The  term  "libc"  is  commonly used as a shorthand for the "standard C 
+     library", a library of standard functions that can be used by all C programs 
+     (and sometimes by programs in other languages).  Because of some history (see 
+     below), use of the term "libc" to refer to the standard C library is somewhat 
+     ambiguous on Linux.
+
+*libgcc - GCC's runtime library*
+   
+     The library contains some low-level functions that GCC emits calls to (like 
+     long long division on 32-bit CPUs).
 
 
 Let's have a look at disassembled listing of hello\_world.rs executable.
