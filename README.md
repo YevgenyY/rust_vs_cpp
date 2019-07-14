@@ -91,13 +91,13 @@ As we can see there are *librt, libdl, libpthread, libc, libgcc* libraries.
      a filter on libc.so.1. New application development need not specify
      -lpthread although doing so has no effect.
 
-*libc - overview of standard C libraries on Linux*
+*libc - overview of standard c libraries on linux*
 
-     The  term  "libc"  is  commonly used as a shorthand for the "standard C 
-     library", a library of standard functions that can be used by all C programs 
-     (and sometimes by programs in other languages).  Because of some history (see 
-     below), use of the term "libc" to refer to the standard C library is somewhat 
-     ambiguous on Linux.
+     the  term  "libc"  is  commonly used as a shorthand for the "standard c 
+     library", a library of standard functions that can be used by all c programs 
+     (and sometimes by programs in other languages).  because of some history (see 
+     below), use of the term "libc" to refer to the standard c library is somewhat 
+     ambiguous on linux.
 
 *libgcc - GCC's runtime library*
    
@@ -159,6 +159,23 @@ Dynamic section at offset 0xe18 contains 25 entries:
 ```
 
 There are only two shared libraries: *libstdc++ and libc*.
+
+*libstdc++ - is an implementation of the C++ standard library, 
+targeting C++11, C++14 and above*
+
+    Features and Goals
+        Correctness as defined by the C++11 standard.
+        Fast execution.
+        Minimal memory use.
+        Fast compile times.
+        ABI compatibility with gcc’s libstdc++ for some low-level features such as exception objects, rtti and memory allocation.
+        Extensive unit tests.
+    Design and Implementation:
+        Extensive unit tests
+        Internal linker model can be dumped/read to textual format
+        Additional linking features can be plugged in as “passes”
+        OS specific and CPU specific code factored out
+
 
 What size is disassembled listing of hello.cpp?
 
