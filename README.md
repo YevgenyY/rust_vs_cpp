@@ -168,7 +168,8 @@ targeting C++11, C++14 and above*
         Fast execution.
         Minimal memory use.
         Fast compile times.
-        ABI compatibility with gcc’s libstdc++ for some low-level features such as exception objects, rtti and memory allocation.
+        ABI compatibility with gcc’s libstdc++ for some low-level features 
+            such as exception objects, rtti and memory allocation.
         Extensive unit tests.
     Design and Implementation:
         Extensive unit tests
