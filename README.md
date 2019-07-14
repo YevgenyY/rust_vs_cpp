@@ -59,7 +59,7 @@ Dynamic section at offset 0x2e880 contains 29 entries:
 ```
 As we can see there are *libpthread, libc, libgcc* libraries.
 
-Let's have a look at disassembled listing.
+Let's have a look at disassembled listing of hello\_world.rs executable.
 ```
 objdump -d main | wc -l
 31008
