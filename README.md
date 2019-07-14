@@ -127,7 +127,7 @@ fn main() {
 
         let now_alloc = SystemTime::now();
         for x in 0..100000000 {
-                num = x; // only dynamic allocation testing
+                // num = x; // only dynamic allocation testing
                 num = rand::thread_rng().gen();
                 vec.push( num );
         }
@@ -135,13 +135,13 @@ fn main() {
 
         let now_sort = SystemTime::now();
         vec.sort();
-        println!("Sorting time {:?}", now_sort.elapsed());
+        println!("Sorting time {:?}. Vector size is {}", now_sort.elapsed(), vec.len());
 }
 ```
 
-The dynamic allocation time is 6 second.
+The dynamic allocation time is 6 seconds.
 
-Sorting time of 100M random array of uint32\_t integers is 75 sec. 
+Sorting time of 100M vector of random uint32\_t integers is 74 sec. 
 
 ## C++
 
@@ -219,3 +219,40 @@ objdump -d hello | wc -l
 
 Sorting algorithm has a computational complexity estimation of O(n log n).
 
+```c++
+#include <iostream>
+#include <vector>
+#include <stdint.h>
+#include <random>
+#include <algorithm>
+
+using namespace std;
+
+int main(int argc, char **argv) 
+{
+        int startTime, endTime, totalTime;
+        vector<uint32_t> vec;
+        uint32_t num;
+
+	srand(time(NULL)); // randomize seed
+
+        for (int i=0; i < 100000000; ++i) 
+        {
+		//num = i; dynamic allocation test only
+                num = rand();
+                vec.push_back(num);
+        }
+
+        startTime = time(NULL);
+        sort(vec.begin(), vec.end());
+        endTime = time(NULL);
+
+        totalTime = endTime - startTime;
+
+        std::cout << "Runtime: " << totalTime << " seconds." << endl;
+}
+```
+
+The dynamic allocation time is 1 second.
+
+Sorting time of 100M random vector of uint32\_t integers is 35 sec. 

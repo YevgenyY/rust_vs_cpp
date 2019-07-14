@@ -12,12 +12,13 @@ int main(int argc, char **argv)
 	vector<uint32_t> vec;
 	uint32_t num;
 
+	srand(time(NULL)); // randomize seed
 
 	for (int i=0; i < 100000000; ++i) 
 	{
+		//num = i; // dynamic allocation test only
 		num = rand();
 		vec.push_back(num);
-		//cout << num << endl;
 	}
 
 	startTime = time(NULL);

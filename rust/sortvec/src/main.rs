@@ -17,5 +17,5 @@ fn main() {
 	
 	let now_sort = SystemTime::now();
 	vec.sort();
-	println!("Sorting time {:?}", now_sort.elapsed());
+	println!("Sorting time {:?}. Vector size is: {}", now_sort.elapsed(), vec.len());
 }
