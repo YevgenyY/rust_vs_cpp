@@ -3,18 +3,20 @@
 ## SUMMARY
 
 
-|               | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+|  Task name                              | RUST (rustc 1.34.1)  | C++ (gcc 5.4.0) |
+| --------------------------------------- |:--------------------:| ---------------:|
+| HelloWorld executable dynamic libs      | pthread,libgcc,libc..|libstdc++, libc  |
+| HelloWorld executable disassembled size | 31008 lines          |  244 lines      |
+| 100M vector of integers mem allocation  | 6 seconds            |  1 second       |
+| 100M vector of random integers sorting  | 74 seconds           |  35 seconds     |
+| Channels, 256 senders, 1M messages each | 14 seconds           |  4 seconds      |
 
 
 ## HARDARE / OS / compilers
 
 1. CPU: Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz / 8 threads
 2. RAM: Kingston DDR3, 32GB
-3. OS: Linux host 4.4.0-148-generic #174-Ubuntu SMP Tue May 7 12:20:14 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+3. OS: Linux host 4.4.0-148-generic #174-Ubuntu SMP Tue May 7 12:20:14 UTC 2019 x86\_64 x86\_64 x86\_64 GNU/Linux
 4. GCC: gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609
 5. RUST compiler: rustc 1.34.1 
 6. CARGO: cargo 1.34.0
@@ -156,7 +158,7 @@ Sorting time of 100M vector of random uint32\_t integers is 74 sec.
 ### RUST channels: Receiver, Senders
 
 Let's take the example of channel demonstration from the RUST book.
-To make it more complicated we will create 254 threads. Each thread 
+To make it more complicated we will create 256 threads. Each thread 
 generates 1M vector of integers and sends it to receiver. Receiver 
 collects all the vectors/messages from threads.
 
