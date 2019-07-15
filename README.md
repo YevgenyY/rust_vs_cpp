@@ -1,4 +1,4 @@
-# RUST vs C++: a subjective comparision based on different tests
+# RUST vs C++: Subjective comparison based on different tests
 
 ## SUMMARY
 
