@@ -3,13 +3,13 @@
 ## SUMMARY
 
 
-|  Task name                              | RUST (rustc 1.34.1)  | C++ (gcc 5.4.0) |
-| --------------------------------------- |:--------------------:| ---------------:|
-| HelloWorld executable dynamic libs      | pthread,libgcc,libc..|libstdc++, libc  |
-| HelloWorld executable disassembled size | 31008 lines          |  244 lines      |
-| 100M vector of integers mem allocation  | 6 seconds            |  1 second       |
-| 100M vector of random integers sorting  | 74 seconds           |  35 seconds     |
-| Channels, 256 senders, 1M messages each | 14 seconds           |  4 seconds      |
+|  Test name                              | RUST (rustc 1.34.1)             | C++ (gcc 5.4.0) |
+| --------------------------------------- |:-------------------------------:| ---------------:|
+| HelloWorld executable dynamic libs      | libdl,librt,pthread,libgcc,libc |libstdc++, libc  |
+| HelloWorld executable disassembled size | 31008 lines                     |  244 lines      |
+| 100M vector of integers mem allocation  | 6 seconds                       |  1 second       |
+| 100M vector of random integers sorting  | 74 seconds                      |  35 seconds     |
+| Channels, 256 senders, 1M messages each | 14 seconds                      |  4 seconds      |
 
 
 ## HARDARE / OS / compilers
