@@ -296,7 +296,7 @@ targeting C++11, C++14 and above*
         OS specific and CPU specific code factored out
 
 
-What size is [disassembled listing](https://github.com/YevgenyY/rust_vs_cpp/blob/master/cpp/hello/hello.asm) of hello.cpp?
+What size is the [disassembled listing](https://github.com/YevgenyY/rust_vs_cpp/blob/master/cpp/hello/hello.asm) of hello.cpp?
 
 ```
 objdump -d hello | wc -l
