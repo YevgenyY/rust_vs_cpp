@@ -105,7 +105,7 @@ As we can see there are *librt, libdl, libpthread, libc, libgcc* libraries.
      long long division on 32-bit CPUs).
 
 
-Let's have a look at disassembled listing of hello\_world.rs executable.
+Let's have a look at [disassembled listing](https://raw.githubusercontent.com/YevgenyY/rust_vs_cpp/master/rust/simple_hello/main.asm) of hello\_world.rs executable.
 ```
 objdump -d main | wc -l
 31008
