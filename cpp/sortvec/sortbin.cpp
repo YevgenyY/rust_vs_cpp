@@ -4,6 +4,7 @@
 #include <random>
 #include <algorithm>
 #include <chrono>
+#include <fstream>
 
 using namespace std;
 
@@ -16,20 +17,19 @@ int main(int argc, char **argv)
 	srand(time(NULL)); // randomize seed
 
 	auto start = chrono::steady_clock::now();
-	for (int i=0; i < 1000000000; ++i) 
-	{
-		//num = i; // dynamic allocation test only
-		num = ((long long)rand() << 32) | rand();
-		num = rand();
-		vec.push_back(num);
-	}
+
+	std::ifstream ifs;
+
+	ifs.open("../../data/test.bin", std::ios::in | std::ios::binary);
+	vector<char> buffer;
+	buffer.assign(istreambuf_iterator<char>(ifs), istreambuf_iterator<char>());
 	auto end = chrono::steady_clock::now();
 
-	cout << "Elapsed allocation time in milliseconds: " << 
+	cout << "Elapsed file reading into vector in milliseconds: " << 
 		chrono::duration_cast<chrono::milliseconds>(end - start).count() << endl;
 	
 	start = chrono::steady_clock::now();
-	sort(vec.begin(), vec.end());
+	sort(buffer.begin(), buffer.end());
 	end = chrono::steady_clock::now();
 
 	totalTime = endTime - startTime;
