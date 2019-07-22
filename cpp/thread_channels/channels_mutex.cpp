@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <thread>
 #include <mutex>
+#include <chrono>
 
 #define NTHREADS 256
 #define NMAXMSG 1000000
@@ -27,9 +28,7 @@ int main(int argc, char **argv)
 {
 	thread tarr[ NTHREADS ];
 
-	int startTime, endTime, totalTime;
-
-	startTime = time(NULL);
+	auto start = chrono::steady_clock::now();
 
 	for (int i=0; i < NTHREADS; ++i) 
 	{
@@ -39,8 +38,9 @@ int main(int argc, char **argv)
 	for (int i=0; i < NTHREADS; ++i)
 		tarr[i].join();
 
-	endTime = time(NULL);
-	totalTime = endTime - startTime;
+	auto end = chrono::steady_clock::now();
 
-	std::cout << "Runtime: " << totalTime << " seconds. vector size: "  << g_vec.size() << endl;
+	cout << "Elapsed time in milliseconds: " << 
+		chrono::duration_cast<chrono::milliseconds>(end - start).count() << endl;
+	cout << "Vector size: " << g_vec.size() << endl;
 }
