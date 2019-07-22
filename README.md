@@ -3,14 +3,14 @@
 ## SUMMARY
 
 
-|  Test name                              | RUST (rustc 1.34.1)             | C++ (gcc 5.4.0) | C++ (clang 3.8.0)|
-| --------------------------------------- |:-------------------------------:| ---------------:|-----------------:|
-| HelloWorld executable dynamic libs      | libdl,librt,pthread,libgcc,libc |libstdc++, libc  |                  |
-| HelloWorld executable disassembled size | 31008 lines                     |  244 lines      |                  |
-| 100M vector of integers mem allocation  | 0.845 seconds                   |  1 second       | 0.647 seconds    |
-| 100M vector of random integers sorting  | 6.74 seconds                    |  6.8 seconds    | 6.70 seconds     |
-| 1Gb file of random integers /dev/urandom| 18.8 seconds                    |  18.5 seconds   | 17.9 seconds     |
-| Channels, 256 senders, 1M messages each | ?? seconds                      |  4 seconds      |                  |
+|  Test name                              | RUST (rustc 1.34.1)             | C++ (gcc 5.4.0) | C++ (clang 3.8.0)         |
+| --------------------------------------- |:-------------------------------:| ---------------:|--------------------------:|
+| HelloWorld executable dynamic libs      | libdl,librt,pthread,libgcc,libc |libstdc++, libc  | libstdc++,libm,libgcc,libc|
+| HelloWorld executable disassembled size | 31008 lines                     |  244 lines      | 254 lines                 |
+| 100M vector of integers mem allocation  | 0.168 seconds                   |  0.341 second   | 0.340 seconds             |
+| 100M vector of random integers sorting  | 6.74 seconds                    |  6.8 seconds    | 6.70 seconds              |
+| 1Gb file of random integers /dev/urandom| 18.8 seconds                    |  18.5 seconds   | 17.9 seconds              |
+| Channels, 256 senders, 1M messages each | ?? seconds                      |  4 seconds      |                           |
 
 
 ## HARDARE / OS / compilers

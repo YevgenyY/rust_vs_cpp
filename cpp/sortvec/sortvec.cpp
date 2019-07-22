@@ -10,17 +10,17 @@ using namespace std;
 int main(int argc, char **argv) 
 {
 	int startTime, endTime, totalTime;
-	vector<uint64_t> vec;
-	uint64_t num;
+	vector<uint32_t> vec;
+	uint32_t num;
 
 	srand(time(NULL)); // randomize seed
 
 	auto start = chrono::steady_clock::now();
 	for (int i=0; i < 100000000; ++i) 
 	{
-		num = i; // dynamic allocation test only
+		//num = i; // dynamic allocation test only
 		//num = ((long long)rand() << 32) | rand();
-		//num = rand();
+		num = rand();
 		vec.push_back(num);
 	}
 	auto end = chrono::steady_clock::now();
