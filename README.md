@@ -10,7 +10,7 @@
 | 100M vector of integers mem allocation  | 0.168 seconds                   |  0.341 second   | 0.340 seconds             |
 | 100M vector of random integers sorting  | 6.74 seconds                    |  6.8 seconds    | 6.70 seconds              |
 | 1Gb file of random integers /dev/urandom| 18.8 seconds                    |  18.5 seconds   | 17.9 seconds              |
-| Channels, 256 senders, 1M messages each | ?? seconds                      |  4 seconds      |                           |
+| Channels, 256 senders, 1M messages each | 0.600 seconds                   |  0.794 seconds  |                           |
 
 
 ## HARDARE / OS / compilers
