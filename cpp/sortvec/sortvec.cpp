@@ -16,11 +16,11 @@ int main(int argc, char **argv)
 	srand(time(NULL)); // randomize seed
 
 	auto start = chrono::steady_clock::now();
-	for (int i=0; i < 1000000000; ++i) 
+	for (int i=0; i < 100000000; ++i) 
 	{
-		//num = i; // dynamic allocation test only
-		num = ((long long)rand() << 32) | rand();
-		num = rand();
+		num = i; // dynamic allocation test only
+		//num = ((long long)rand() << 32) | rand();
+		//num = rand();
 		vec.push_back(num);
 	}
 	auto end = chrono::steady_clock::now();

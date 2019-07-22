@@ -7,3 +7,4 @@ sortbin: sortbin.cpp
 	g++ -std=c++11 -Ofast -o sortbin -fomit-frame-pointer sortbin.cpp
 clean:
 	rm sortvec
+	rm sortbin
