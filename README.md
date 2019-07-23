@@ -11,6 +11,7 @@
 | 100M vector of random integers sorting  | 6.74 seconds                    |  6.8 seconds    | 6.70 seconds              |
 | 1Gb file of random integers /dev/urandom| 18.8 seconds                    |  18.5 seconds   | 17.9 seconds              |
 | Channels, 256 senders, 1M messages each | 0.600 seconds                   |  0.794 seconds  |                           |
+| Mutex benchmark (1024 threads)          | 0.865 seconds                   |  7.121 seconds  | 0.622 seconds             |
 
 
 ## HARDARE / OS / compilers
