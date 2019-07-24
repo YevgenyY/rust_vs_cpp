@@ -20,8 +20,9 @@
 2. RAM: Kingston DDR3, 32GB
 3. OS: Linux host 4.4.0-148-generic #174-Ubuntu SMP Tue May 7 12:20:14 UTC 2019 x86\_64 x86\_64 x86\_64 GNU/Linux
 4. GCC: gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609
-5. RUST compiler: rustc 1.34.1 
-6. CARGO: cargo 1.34.0
+5. Clang: clang version 3.8.0-2ubuntu4 (tags/RELEASE\_380/final), Apr 2017
+6. RUST compiler: rustc 1.34.1 
+7. CARGO: cargo 1.34.0
 
 ## RUST
 
