@@ -153,9 +153,6 @@ fn main() {
 }
 ```
 
-The dynamic allocation time is 6 seconds.
-
-Sorting time of 100M vector of random uint32\_t integers is 74 sec. 
 
 ### RUST channels: Receiver, Senders
 
@@ -230,8 +227,6 @@ fn main() {
 }
 ```
 
-The time of sending / receiving and collecting all the messages by rust generated 
-executable is 14 seconds.
 
 ## C++
 
@@ -406,5 +401,3 @@ int main(int argc, char **argv)
 
 ```
 
-The time of sending / receiving and collecting all the messages by g++ generated 
-executable is 4 seconds.
