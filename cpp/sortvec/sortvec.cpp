@@ -36,4 +36,5 @@ int main(int argc, char **argv)
 
 	cout << "Elapsed sorting time in milliseconds: " << 
 		chrono::duration_cast<chrono::milliseconds>(end - start).count() << endl;
+	cout << "Vector size: " << vec.size() << endl;
 }
