@@ -1,9 +1,9 @@
 all: sortvec sortbin
 
-sortvec: sortvec.cpp
-	g++-4.9 -std=c++11 -Ofast -o sortvec -fomit-frame-pointer sortvec.cpp
+sortvec: sortvec.cpp Makefile
+	g++ -std=c++11 -Ofast -o sortvec -fomit-frame-pointer sortvec.cpp
 
-sortbin: sortbin.cpp
+sortbin: sortbin.cpp Makefile
 	g++ -std=c++11 -Ofast -o sortbin -fomit-frame-pointer sortbin.cpp
 clean:
 	rm sortvec

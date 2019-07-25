@@ -12,11 +12,8 @@ using namespace std;
 
 int main(int argc, char **argv) 
 {
-	int startTime, endTime, totalTime;
 	vector<uint32_t> vec;
 	uint32_t num;
-
-	srand(time(NULL)); // randomize seed
 
 	/* Read integers from file */
 	auto start = chrono::steady_clock::now();
@@ -31,36 +28,32 @@ int main(int argc, char **argv)
 
 	int numIntegers = fileSize / sizeof(uint32_t);
 	uint32_t* buffer = new uint32_t [numIntegers];
-	ifs.read(reinterpret_cast<char*>(buffer), fileSize);
 
-	if (ifs)
-		cout << "All chars read successfully" << endl;
-#if 0
-	while ( !ifs.eof() )
-	{
-		ifs.read(reinterpret_cast<char *>(&num), sizeof(num));
-		vec.push_back( num );
-		//cout << num << endl;
-	}
-#else
+	vec.resize(numIntegers); // this reduces exec time very well
+
+	ifs.read(reinterpret_cast<char*>(buffer), fileSize);
 	for (int i=0; i < numIntegers; i++)
 	{
-		vec.push_back( buffer[i] );
-		//cout << buffer[i] << endl;
+		vec[i] = buffer[i]; // the fastest
+		//vec.push_back( buffer[i] );
+		//cout << "Num: " <<  buffer[i] << endl;
 	}
-#endif
 
 	auto end = chrono::steady_clock::now();
+
+	cout << "numIntegers: " << numIntegers << endl;
+
 	/* end of reading */
 
-	cout << "Elapsed file reading into vector in milliseconds: " << 
-		chrono::duration_cast<chrono::milliseconds>(end - start).count() << endl;
+	if (ifs)
+		cout << "Elapsed file reading into vector in milliseconds: " << 
+			chrono::duration_cast<chrono::milliseconds>(end - start).count() << endl;
+	else
+		return -1;
 	
 	start = chrono::steady_clock::now();
 	sort(vec.begin(), vec.end());
 	end = chrono::steady_clock::now();
-
-	totalTime = endTime - startTime;
 
 	cout << "Elapsed sorting time in milliseconds: " << 
 		chrono::duration_cast<chrono::milliseconds>(end - start).count() << endl;

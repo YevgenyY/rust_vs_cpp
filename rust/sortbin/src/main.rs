@@ -14,19 +14,25 @@ fn main() {
 	file.read_to_end(&mut hugebuf);
 	let mut buf = [0u8; 4];
 	let mut i = 0;
+	let mut j = 0;
+	let vec_size = hugebuf.len() / 4;
 	
+	//vec.resize(vec_size, 0); // slightly reduces execution time 
 	for x in hugebuf {
 		buf[i] = x;
 		i = i+1;
 		if (i == 4) {
 			num = unsafe { mem::transmute(buf) };
+			//vec[j] = num; // slightly reduces exec time
 			vec.push( num );
 			i = 0;
 			//println!("Num: {:?}", num);
+			j += 1;
 		}
 	}
 
 	println!("Allocation time {:?}", now_alloc.elapsed());
+	println!("numIntegers {:?}", j);
 	
 	let now_sort = SystemTime::now();
 	vec.sort();

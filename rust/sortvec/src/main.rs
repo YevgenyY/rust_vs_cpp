@@ -4,11 +4,12 @@ use std::time::SystemTime;
 use rand::{Rng, SeedableRng};
 
 fn main() {
+	let MAXNUM = 100 * 1000 * 1000;
 	let mut num: i32 = 0;
-	let mut vec = vec![0, num];
+	let mut vec = Vec::new();
 
 	let now_alloc = SystemTime::now();
-	for x in 0..100000000 {
+	for x in 0..MAXNUM {
 		//num = x; // dynamic allocation testing
 		num = rand::random::<i32>();
 		vec.push( num );

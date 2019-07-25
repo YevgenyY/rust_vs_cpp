@@ -6,6 +6,7 @@
 #include <chrono>
 
 using namespace std;
+uint32_t MAXNUM = 100 * 1000 * 1000;
 
 int main(int argc, char **argv) 
 {
@@ -14,11 +15,14 @@ int main(int argc, char **argv)
 	uint32_t num;
 
 	srand(time(NULL)); // randomize seed
+	//vec.resize(MAXNUM); // the fastest
+	vec.reserve(MAXNUM);
 
 	auto start = chrono::steady_clock::now();
-	for (int i=0; i < 100000000; ++i) 
+	for (uint32_t i=0; i < MAXNUM; ++i) 
 	{
-		//num = i; // dynamic allocation test only
+		num = i; // dynamic allocation test only
+		vec[i] = num;
 		//num = ((long long)rand() << 32) | rand();
 		num = rand();
 		vec.push_back(num);

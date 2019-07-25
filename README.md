@@ -7,9 +7,10 @@
 | --------------------------------------- |:-------------------------------:| ---------------:|--------------------------:|
 | HelloWorld executable dynamic libs      | libdl,librt,pthread,libgcc,libc |libstdc++, libc  | libstdc++,libm,libgcc,libc|
 | HelloWorld executable disassembled size | 31008 lines                     |  244 lines      | 254 lines                 |
-| 100M vector of integers mem allocation  | 0.168 seconds                   |  0.341 second   | 0.340 seconds             |
-| 100M vector of random integers sorting  | 6.74 seconds                    |  6.8 seconds    | 6.70 seconds              |
-| Sorting a file of 1Gb random integers from /dev/urandom| 18.8 seconds                    |  18.5 seconds   | 17.9 seconds              |
+| 100M vector of integers mem allocation  | 0.168 seconds                   |  0.239 second   | 0.144 seconds             |
+| 100M vector of random integers sorting  | 6.74 seconds                    |  6.8 seconds    | 6.673 seconds             |
+| Reading a file of 1Gb size into a vector| 2.085 seconds                   |  0.714 seconds  | 0.715 seconds             |
+| Sorting a file of 1Gb random integers from /dev/urandom| 18.8 seconds     |  18.5 seconds   | 17.9 seconds              |
 | Channels, 256 senders, 1M messages each | 0.231 seconds                   |  0.233 seconds  | 0.225 seconds             |
 | Mutex benchmark (1024 threads)          | 0.865 seconds                   |  7.121 seconds  | 0.622 seconds             |
 
@@ -133,26 +134,45 @@ objdump -d main | wc -l
 Sorting algorithm has a computational complexity estimation of O(n log n).
 
 ```rust
-extern crate rand;
-
 use std::time::SystemTime;
-use rand::Rng;
+use std::fs::File;
+use std::io::Read;
+use std::mem;
 
 fn main() {
-        let mut num: i32 = 0;
-        let mut vec = vec![0, num];
+        let mut num: u32;
+        let mut hugebuf: Vec<u8> = Vec::new();
+        let mut vec: Vec<u32> = Vec::new();
 
         let now_alloc = SystemTime::now();
-        for x in 0..100000000 {
-                // num = x; // only dynamic allocation testing
-                num = rand::thread_rng().gen();
-                vec.push( num );
+        let mut file = File::open("../../data/test.bin").expect("Error opening File");
+        // read file as u8 vector
+        file.read_to_end(&mut hugebuf);
+        let mut buf = [0u8; 4];
+        let mut i = 0;
+        let mut j = 0;
+        let vec_size = hugebuf.len() / 4;
+
+        //vec.resize(vec_size, 0); // slightly reduces execution time 
+        for x in hugebuf {
+                buf[i] = x;
+                i = i+1;
+                if (i == 4) {
+                        num = unsafe { mem::transmute(buf) };
+                        //vec[j] = num; // slightly reduces exec time
+                        vec.push( num );
+                        i = 0;
+                        j += 1;
+                        //println!("Num: {:?}", num);
+                }
         }
+
         println!("Allocation time {:?}", now_alloc.elapsed());
+        println!("numIntegers {:?}", j);
 
         let now_sort = SystemTime::now();
         vec.sort();
-        println!("Sorting time {:?}. Vector size is {}", now_sort.elapsed(), vec.len());
+        println!("Sorting time {:?}. Vector size is: {}", now_sort.elapsed(), vec.len());
 }
 ```
 
@@ -313,8 +333,10 @@ Sorting algorithm has a computational complexity estimation of O(n log n).
 #include <stdint.h>
 #include <random>
 #include <algorithm>
+#include <chrono>
 
 using namespace std;
+uint32_t MAXNUM = 100 * 1000 * 1000;
 
 int main(int argc, char **argv) 
 {
@@ -322,28 +344,35 @@ int main(int argc, char **argv)
         vector<uint32_t> vec;
         uint32_t num;
 
-	srand(time(NULL)); // randomize seed
+        srand(time(NULL)); // randomize seed
+        //vec.resize(MAXNUM); // the fastest
+        vec.reserve(MAXNUM);
 
-        for (int i=0; i < 100000000; ++i) 
+        auto start = chrono::steady_clock::now();
+        for (uint32_t i=0; i < MAXNUM; ++i) 
         {
-		//num = i; dynamic allocation test only
+                num = i; // dynamic allocation test only
+                vec[i] = num;
+                //num = ((long long)rand() << 32) | rand();
                 num = rand();
                 vec.push_back(num);
         }
+        auto end = chrono::steady_clock::now();
 
-        startTime = time(NULL);
+        cout << "Elapsed allocation time in milliseconds: " << 
+                chrono::duration_cast<chrono::milliseconds>(end - start).count() << endl;
+
+        start = chrono::steady_clock::now();
         sort(vec.begin(), vec.end());
-        endTime = time(NULL);
+        end = chrono::steady_clock::now();
 
         totalTime = endTime - startTime;
 
-        std::cout << "Runtime: " << totalTime << " seconds." << endl;
+        cout << "Elapsed sorting time in milliseconds: " << 
+                chrono::duration_cast<chrono::milliseconds>(end - start).count() << endl;
+        cout << "Vector size: " << vec.size() << endl;
 }
 ```
-
-The dynamic allocation time is 1 second.
-
-Sorting time of 100M random vector of uint32\_t integers is 35 sec. 
 
 ### C++ channel emulation using std::thread: Receiver, Senders
 
@@ -362,45 +391,70 @@ there are some more interesting non-locking ones.
 #include <algorithm>
 #include <thread>
 #include <mutex>
+#include <chrono>
 
 #define NTHREADS 256
 #define NMAXMSG 1000000
 
 using namespace std;
 
-vector<uint32_t> g_vec;
-mutex g_mutex_vec;
+vector<uint32_t> g_vec(NTHREADS * NMAXMSG);
+//mutex g_mutex_vec;
 
-void threadFunc(int tid)
+typedef struct {
+        vector<uint32_t> vec;
+        thread thd;
+        uint16_t id;
+} Targ;
+
+
+void threadFunc(Targ *targ)
 {
-        lock_guard<mutex> guard(g_mutex_vec);
+        //lock_guard<mutex> guard(g_mutex_vec);
+        targ->vec.reserve( NMAXMSG );
         for (int i=0; i < NMAXMSG; ++i)
         {
-                g_vec.push_back(tid + i);
+                targ->vec.push_back(targ->id + i);
         }
 }
 
 int main(int argc, char **argv) 
 {
-        thread tarr[ NTHREADS ];
+        Targ targs[ NTHREADS ];
+        uint64_t acc = 0;
 
-        int startTime, endTime, totalTime;
-
-        startTime = time(NULL);
-
+        auto start = chrono::steady_clock::now();
+#if 1
         for (int i=0; i < NTHREADS; ++i) 
         {
-                tarr[ i ] = thread( threadFunc, i );
+                targs[ i ].id = i;
+                targs[ i ].thd = thread( threadFunc, &(targs[i]) );
         }
 
+#endif
         for (int i=0; i < NTHREADS; ++i)
-                tarr[i].join();
+                targs[i].thd.join();
 
-        endTime = time(NULL);
-        totalTime = endTime - startTime;
+        //g_vec.reserve( NTHREADS * NMAXMSG );
+        for (int i=0; i < NTHREADS; ++i)
+        {
+                //move ( targs[i].vec.begin(), targs[i].vec.end(), std::back_inserter(g_vec) );
+                //g_vec.insert( g_vec.end(), targs[i].vec.begin(), targs[i].vec.end() );
+                /* the fastest */
+                //for (int j=0; j < NMAXMSG; ++j)
+                //      g_vec[i+j] = targs[i].vec[j];
+                for (int j=0; j < NMAXMSG; ++j)
+                        acc += targs[i].vec[j];
 
-        std::cout << "Runtime: " << totalTime << " seconds. vector size: "  << g_vec.size() << endl;
+                //cout << "#" << i << ": " << acc << endl;
+
+        }
+
+        auto end = chrono::steady_clock::now();
+
+        cout << "Elapsed time in milliseconds: " << 
+                chrono::duration_cast<chrono::milliseconds>(end - start).count() << endl;
+        cout << "Accumulator: " << acc << endl;
 }
-
 ```
 
