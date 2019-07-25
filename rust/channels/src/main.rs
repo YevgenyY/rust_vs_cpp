@@ -2,6 +2,7 @@ use std::time::SystemTime;
 use std::sync::mpsc::{Sender, Receiver};
 use std::sync::mpsc;
 use std::thread;
+use std::process::exit;
 
 static NTHREADS: i32 = 256;
 static NMAXMSG: i32 = 1000000;
@@ -41,14 +42,17 @@ fn main() {
 
     // Here, all the messages are collected
     let mut rvec = Vec::with_capacity(NMAXMSG as usize);
-    let mut result = Vec::with_capacity(NELEM as usize);
+    //let mut result = Vec::with_capacity(NELEM as usize);
+    let mut acc: u64 = 0;
+
     for _ in 0..NTHREADS {
         // The `recv` method picks a message from the channel
         // recv` will block the current thread if there are no messages available
         rvec = rx.recv().unwrap();
         for elem in rvec {
             //println!("received: {}", elem);
-            result.push(elem);
+            //result.push(elem);
+            acc += elem as u64;
         }
     }
     
@@ -58,6 +62,7 @@ fn main() {
     }
 
     println!("{:?}", now.elapsed());
-    println!("Vector size: {}", result.len());
+    //println!("Vector size: {}", result.len());
+    println!("Accumulator: {}", acc);
 
 }

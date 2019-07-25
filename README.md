@@ -10,7 +10,7 @@
 | 100M vector of integers mem allocation  | 0.168 seconds                   |  0.341 second   | 0.340 seconds             |
 | 100M vector of random integers sorting  | 6.74 seconds                    |  6.8 seconds    | 6.70 seconds              |
 | Sorting a file of 1Gb random integers from /dev/urandom| 18.8 seconds                    |  18.5 seconds   | 17.9 seconds              |
-| Channels, 256 senders, 1M messages each | 0.600 seconds                   |  0.794 seconds  |                           |
+| Channels, 256 senders, 1M messages each | 0.231 seconds                   |  0.233 seconds  | 0.225 seconds             |
 | Mutex benchmark (1024 threads)          | 0.865 seconds                   |  7.121 seconds  | 0.622 seconds             |
 
 
@@ -34,7 +34,8 @@ fn main() {
 }
 ```
 
-Have a look at a very interesting article from RUSTLOG [Why is a Rust executable large?](https://lifthrasiir.github.io/rustlog/why-is-a-rust-executable-large.html)
+Have a look at a very interesting article from RUSTLOG: [Why is a Rust executable large?](https://lifthrasiir.github.io/rustlog/why-is-a-rust-executable-large.html)
+
 The size of executable is:  263280 bytes. In case we use *--opt-level=s or z* compiler's options the size reduces slightly.
 
 Have a look at dynamic section of executable.
