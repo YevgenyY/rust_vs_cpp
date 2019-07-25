@@ -9,7 +9,7 @@
 | HelloWorld executable disassembled size | 31008 lines                 |  244 lines      | 254 lines                 |
 | 100M vector of integers mem allocation  | 0.168 seconds               |  0.239 second   | 0.144 seconds             |
 | 100M vector of random integers sorting  | 6.74 seconds                |  6.8 seconds    | 6.673 seconds             |
-| Reading a file of 1Gb size into a vector| 2.085 seconds               |  0.714 seconds  | 0.715 seconds             |
+| Reading a large file (1GB) into a vector| 2.085 seconds               |  0.714 seconds  | 0.715 seconds             |
 | Sorting a file of 1Gb random integers from /dev/urandom| 18.8 seconds |  18.5 seconds   | 17.9 seconds              |
 | Channels, 256 senders, 1M messages each | 0.231 seconds               |  0.233 seconds  | 0.225 seconds             |
 | Mutex benchmark (1024 threads)          | 0.865 seconds               |  7.121 seconds  | 0.622 seconds             |
