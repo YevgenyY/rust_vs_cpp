@@ -5,7 +5,7 @@
 
 |  Test name                              | RUST (rustc 1.34.1)             | C++ (gcc 5.4.0) | C++ (clang 3.8.0)         |
 | --------------------------------------- |:-------------------------------:| ---------------:|--------------------------:|
-| HelloWorld executable dynamic libs      | libdl,librt,pthread,libgcc,libc |libstdc++, libc  | libstdc++,libm,libgcc,libc|
+| HelloWorld executable dynamic libs      | pthread,libgcc,libc,etc..       |libstdc++, libc  | libstdc++,libm,libgcc,libc|
 | HelloWorld executable disassembled size | 31008 lines                     |  244 lines      | 254 lines                 |
 | 100M vector of integers mem allocation  | 0.168 seconds                   |  0.239 second   | 0.144 seconds             |
 | 100M vector of random integers sorting  | 6.74 seconds                    |  6.8 seconds    | 6.673 seconds             |
